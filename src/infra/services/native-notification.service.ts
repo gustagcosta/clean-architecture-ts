@@ -1,7 +1,7 @@
 import type {
   NotificationService,
   SendCreatePostNotificationInput,
-} from '../../../application/services/notification.service';
+} from '../../application/services/notification.service';
 
 export class NativeNotificationService implements NotificationService {
   public async sendCreatePostNotification(input: SendCreatePostNotificationInput): Promise<void> {

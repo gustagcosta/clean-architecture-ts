@@ -5,6 +5,8 @@ export class CreateUserInteractor {
   constructor(private readonly gateway: CreateUserGateway) {}
 
   public async execute(input: CreateUserInput): Promise<void> {
+    const cryptedPassword = await this.gateway.cryptPassword(input.password);
+    input.password = cryptedPassword;
     await this.gateway.create(input);
   }
 }
