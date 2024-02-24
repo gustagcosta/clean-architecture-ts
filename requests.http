@@ -1,0 +1,21 @@
+POST http://localhost:3333/user HTTP/1.1
+content-type: application/json
+
+{
+  "name": "gustavin",
+  "email": "gustavo@email.com",
+  "password": "Senha#10"
+}
+
+GET http://localhost:3333/user HTTP/1.1
+GET http://localhost:3333/post HTTP/1.1
+
+POST http://localhost:3333/post HTTP/1.1
+content-type: application/json
+
+{
+  "user_id": 1,
+  "title": "ss",
+  "content": "saflvfsses"
+}
+
