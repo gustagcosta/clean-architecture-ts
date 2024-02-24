@@ -4,7 +4,13 @@ import type { CreateUserGateway } from '../gateways/create-user.gateway';
 export class CreateUserInteractor {
   constructor(private readonly gateway: CreateUserGateway) {}
 
-  public async execute(user: User): Promise<void> {
-    await this.gateway.create(user);
+  public async execute(input: CreateUserInput): Promise<void> {
+    await this.gateway.create(input);
   }
 }
+
+export type CreateUserInput = {
+  name: string;
+  email: string;
+  password: string;
+};

@@ -1,9 +1,11 @@
-import type { CreateUserInteractor } from '../../../application/interactors/create-user.interactor';
+import type { CreateUserInput, CreateUserInteractor } from '../../../application/interactors/create-user.interactor';
 import type { User } from '../../../entities/user';
+import { HttpStatus } from '../../../shared/constants';
 import { DataError } from '../../../shared/errors';
-import type HTTPRequest from '../http-request';
-import type HTTPResponse from '../http-response';
+import type { HTTPRequest } from '../http-request';
+import type { HTTPResponse } from '../http-response';
 import { Controller } from './controller';
+import type { CreateUserHttpMapper } from './mappers/create-user.mapper';
 
 interface HTTPCreateUserBody {
   name: string;
@@ -11,37 +13,27 @@ interface HTTPCreateUserBody {
   password: string;
 }
 
-type HTTPCreateUserInput = HTTPRequest<void, void, HTTPCreateUserBody, void>;
+export type HTTPCreateUserInput = HTTPRequest<void, void, HTTPCreateUserBody, void>;
 
 export class HTTPCreateUserController extends Controller {
   private interactor: CreateUserInteractor;
+  private mapper: CreateUserHttpMapper;
 
-  constructor(interactor: CreateUserInteractor) {
+  constructor(interactor: CreateUserInteractor, mapper: CreateUserHttpMapper) {
     super();
     this.interactor = interactor;
+    this.mapper = mapper;
   }
 
   async run(input: HTTPCreateUserInput): Promise<HTTPResponse> {
     try {
-      const user: User = this.validate(input);
+      const interactorInput: CreateUserInput = this.mapper.RequestToInput(input);
 
-      await this.interactor.execute(user);
+      await this.interactor.execute(interactorInput);
 
-      return { statusCode: 201 };
+      return { statusCode: HttpStatus.Created };
     } catch (error) {
       return this.handleErrorResponse(error);
     }
-  }
-
-  private validate(input: HTTPCreateUserInput): User {
-    // talvez isso aqui seria um mapper
-
-    const { name, email, password } = input.body || {};
-
-    if (typeof name !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
-      throw new DataError('invalid input. Please provide valid name, email, and password.');
-    }
-
-    return { name, email, password };
   }
 }

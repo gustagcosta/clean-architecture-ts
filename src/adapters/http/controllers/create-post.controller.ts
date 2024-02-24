@@ -1,9 +1,11 @@
-import type { CreatePostInteractor } from '../../../application/interactors/create-post.interactor';
+import type { CreatePostInput, CreatePostInteractor } from '../../../application/interactors/create-post.interactor';
 import type { Post } from '../../../entities/post';
+import { HttpStatus } from '../../../shared/constants';
 import { DataError } from '../../../shared/errors';
-import type HTTPRequest from '../http-request';
-import type HTTPResponse from '../http-response';
+import type { HTTPRequest } from '../http-request';
+import type { HTTPResponse } from '../http-response';
 import { Controller } from './controller';
+import type { CreatePostHttpMapper } from './mappers/create-post.mapper';
 
 interface HTTPCreatePostBody {
   user_id: number;
@@ -11,41 +13,27 @@ interface HTTPCreatePostBody {
   content: string;
 }
 
-type HTTPCreatePostInput = HTTPRequest<void, void, HTTPCreatePostBody, void>;
+export type HTTPCreatePostInput = HTTPRequest<void, void, HTTPCreatePostBody, void>;
 
 export class HTTPCreatePostController extends Controller {
   private interactor: CreatePostInteractor;
+  private mapper: CreatePostHttpMapper;
 
-  constructor(interactor: CreatePostInteractor) {
+  constructor(interactor: CreatePostInteractor, mapper: CreatePostHttpMapper) {
     super();
     this.interactor = interactor;
+    this.mapper = mapper;
   }
 
   async run(input: HTTPCreatePostInput): Promise<HTTPResponse> {
     try {
-      const post: Post = this.validate(input);
+      const interactorInput: CreatePostInput = this.mapper.RequestToInput(input);
 
-      await this.interactor.execute(post);
+      await this.interactor.execute(interactorInput);
 
-      return { statusCode: 201 };
+      return { statusCode: HttpStatus.Created };
     } catch (error) {
       return this.handleErrorResponse(error);
     }
-  }
-
-  private validate(input: HTTPCreatePostInput): Post {
-    // talvez isso aqui seria um mapper
-
-    const { user_id, title, content } = input.body || {};
-
-    if (typeof user_id !== 'number' || typeof title !== 'string' || typeof content !== 'string') {
-      throw new DataError('invalid input. Please provide valid user_id, title, and content.');
-    }
-
-    return {
-      userId: user_id,
-      title: title,
-      content: content
-    };
   }
 }

@@ -1,4 +1,5 @@
 import type { Post } from '../../entities/post';
+import type { CreatePostInput } from '../interactors/create-post.interactor';
 import type { PostRepository } from '../repositories/post.repository';
 import type { NotificationService, SendCreatePostNotificationInput } from '../services/notification.service';
 
@@ -13,7 +14,7 @@ export class CreatePostGateway {
     return this.repository.getPostIdByTitle(title);
   }
 
-  public async create(post: Post): Promise<void> {
-    return this.repository.create(post);
+  public async create(input: CreatePostInput): Promise<void> {
+    return this.repository.create(input);
   }
 }

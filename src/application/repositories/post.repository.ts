@@ -1,6 +1,6 @@
-import type { Post } from '../../entities/post';
+import type { CreatePostInput } from '../interactors/create-post.interactor';
 
 export interface PostRepository {
   getPostIdByTitle(title: string): Promise<number>;
-  create(post: Post): Promise<void>;
+  create(input: CreatePostInput): Promise<void>;
 }
