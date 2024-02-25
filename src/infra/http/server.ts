@@ -1,4 +1,5 @@
-import express, { type Request, type Response } from 'express';
+import './tools/dotnev';
+import express from 'express';
 import router from './routes';
 
 export default function run() {

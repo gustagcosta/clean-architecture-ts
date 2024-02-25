@@ -8,3 +8,5 @@ export const HttpStatus = {
   Created: 201,
   NoContent: 204,
 };
+
+export const TokenExpiresInTime = 43200;

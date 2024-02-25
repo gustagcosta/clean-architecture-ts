@@ -2,20 +2,28 @@ POST http://localhost:3333/user HTTP/1.1
 content-type: application/json
 
 {
-  "name": "gustavin",
-  "email": "gustavo@email.com",
-  "password": "Senha#10"
+  "name": "gustavssin",
+  "email": "gustavsso@email.com",
+  "password": "Senhssa#10"
 }
 
-GET http://localhost:3333/user HTTP/1.1
-GET http://localhost:3333/post HTTP/1.1
+GET http://localhost:3333/users HTTP/1.1
+GET http://localhost:3333/posts HTTP/1.1
 
 POST http://localhost:3333/post HTTP/1.1
 content-type: application/json
 
 {
   "user_id": 1,
-  "title": "ss",
-  "content": "saflvfsses"
+  "title": "sasdasdasdafsds",
+  "content": "saflvfssasdasdadsasdasdadadasdes"
 }
 
+POST http://localhost:3333/sign-in HTTP/1.1
+content-type: application/json
+
+{
+  "name": "gustavssin",
+  "email": "gustavsso@email.com",
+  "password": "Senhssa#10"
+}

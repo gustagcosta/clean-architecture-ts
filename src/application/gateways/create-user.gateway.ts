@@ -1,4 +1,3 @@
-import type { User } from '../../entities/user';
 import type { CreateUserInput } from '../interactors/create-user.interactor';
 import type { UserRepository } from '../repositories/user.repository';
 import type { EncryptorService } from '../services/encryptor.service';
